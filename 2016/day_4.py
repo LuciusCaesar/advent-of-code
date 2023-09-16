@@ -63,7 +63,7 @@ def unencrypt(word: str, cipher: int) -> list:
 
 
 rooms = []
-with open("day_4_input.txt", "r") as f:
+with open("2016/day_4_input.txt", "r") as f:
     lines = f.readlines()
     for line in lines:
         rooms.append(get_room_from_line(line.strip()))
