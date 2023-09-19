@@ -1,6 +1,7 @@
 """Day 7 Of the AoC 2016"""
 import doctest
 import re
+from itertools import chain
 
 with open("2016/day_7_input.txt", "r") as file:
     lines = [line.strip() for line in file.readlines()]
@@ -92,10 +93,34 @@ def is_tls_supported_ip(ip: str) -> bool:
     ) and not is_abba_pattern_in_list(return_inside_brackets(ip))
 
 
+def is_ssl_supported_ip(ip: str) -> bool:
+    """
+    >>> is_ssl_supported_ip("aba[bab]xyz")
+    True
+
+    >>> is_ssl_supported_ip("xyx[xyx]xyx")
+    False
+
+    >>> is_ssl_supported_ip("aaa[kek]eke")
+    True
+
+    >>> is_ssl_supported_ip("zazbz[bzb]cdb")
+    True
+    """
+    match = re.search(r"(\w)(?=((\w)\1)\w*(\[|\])(.+\4)?\w*(\2\3))", ip)
+
+    return match is not None
+
+
 tls_supported_ips = [
     (line, is_tls_supported_ip(line))
     for line in lines
     if is_tls_supported_ip(line) is True
 ]
 
-print(len(tls_supported_ips))
+ssl_supported_ips = [
+    (line, is_ssl_supported_ip(line)) for line in lines if is_ssl_supported_ip(line)
+]
+
+print(ssl_supported_ips)
+print(len(ssl_supported_ips))
